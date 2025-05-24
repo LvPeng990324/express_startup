@@ -1,19 +1,18 @@
+ms = require("./ms");
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const custom_middlewares = require("./utils/middleware");
 
 // 中间件
 app.use(express.json());  // 替代body-parser
 app.use(express.urlencoded({ extended: true }));
-app.use(custom_middlewares.request_logger_middleware);
+app.use(ms.middleware.request_logger_middleware);
 app.use(cors());  // 跨域
 
 // 路由
-const apiRouter = require("./routes/api");
-const userApiRouter = require("./routes/user_api");
-app.use("/api", apiRouter);
-app.use("/user-api", userApiRouter);
+app.use("/api", ms.api.router);
+app.use("/user-api", ms.user_api.router);
 
 // 404处理
 app.use((req, res) => {

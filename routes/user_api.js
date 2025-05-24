@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../utils/db");
-const logger = require("../utils/log");
 
 // 请求数据
 router.get("/", async (req, res) => {
-    const [rows] = await db.query("select * from user_login");
+    const [rows] = await ms.db.query("select * from user_login");
     user_list = [];
     for (let i = 0; i < rows.length; i++) {
         const user_data = rows[i];
@@ -16,7 +14,7 @@ router.get("/", async (req, res) => {
         });
     }
 
-    logger.info(`get user data ${JSON.stringify(user_list)}`);
+    ms.log.logger.info(`get user data ${JSON.stringify(user_list)}`);
 
     res.json({
         user_list,
@@ -28,7 +26,7 @@ router.post("/add", async (req, res) => {
     const received_data = req.body;
     let sql = "replace into user_login (uid, day) value (?, ?);";
     let args = [received_data.uid, received_data.day];
-    await db.query(sql, args);
+    await ms.db.query(sql, args);
 
     res.json({
         "res": "success",
@@ -36,4 +34,6 @@ router.post("/add", async (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = {
+    router,
+};

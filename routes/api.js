@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const redis_client = require("../utils/redis");
 
 // 示例API端点
 router.get("/", (req, res) => {
@@ -20,7 +19,7 @@ router.post("/data", (req, res) => {
 router.get("/redis-get", async (req, res) => {
     let key = req.query.key;
 
-    let value = await redis_client.get(key);
+    let value = await ms.redis.get(key);
 
     res.json({
         value,
@@ -31,7 +30,7 @@ router.get("/redis-get", async (req, res) => {
 router.post("/redis-set", async (req, res) => {
     let {key, value} = req.body;
 
-    await redis_client.set(key, value);
+    await ms.redis.set(key, value);
 
     res.json({
         res: "success",
@@ -40,4 +39,6 @@ router.post("/redis-set", async (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = {
+  router,
+};
