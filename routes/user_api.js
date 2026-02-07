@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
         });
     }
 
-    ms.log.logger.info(`get user data ${JSON.stringify(user_list)}`);
+    ms.log.info(`get user data ${JSON.stringify(user_list)}`);
 
     res.json({
         user_list,
